@@ -1,0 +1,53 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@1436.vfa_244484591f">
+  <actions>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@2.2214.vb_b_34b_2ea_9b_83"/>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@2.2214.vb_b_34b_2ea_9b_83">
+      <jobProperties/>
+      <triggers/>
+      <parameters/>
+      <options/>
+    </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
+  </actions>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@3961.ve48ee2c44a_b_3">
+    <script>pipeline {
+    agent { label &apos;slav&apos; } 
+    stages {
+        stage(&apos;BUILD&apos;) {
+            steps {
+                sh &apos;&apos;&apos;
+                    echo &quot;This is a BUILD&quot;
+                    sleep 5
+                &apos;&apos;&apos;  
+            }
+        }
+        stage(&apos;DEPLOY&apos;) {
+            steps {
+                echo &quot;This is a DEPLOY &quot;
+                sh &apos;sleep 10&apos;
+            }
+        }
+        stage(&apos;TEST1&apos;) {
+            steps {
+                sh &apos;echo &quot;This is a TEST1 stage&quot;&apos;
+                sh &apos;sleep 5&apos;
+            }
+        }
+        stage(&apos;TEST2&apos;) {
+            steps {
+                sh &apos;&apos;&apos;
+                    echo &quot;This is a TEST2&quot;
+                    sleep 5
+                &apos;&apos;&apos;
+            }
+        }
+    }
+}</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>

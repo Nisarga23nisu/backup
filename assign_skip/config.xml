@@ -1,0 +1,60 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@1436.vfa_244484591f">
+  <actions>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@2.2214.vb_b_34b_2ea_9b_83"/>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@2.2214.vb_b_34b_2ea_9b_83">
+      <jobProperties/>
+      <triggers/>
+      <parameters>
+        <string>skip_build</string>
+      </parameters>
+      <options/>
+    </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
+  </actions>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.BooleanParameterDefinition>
+          <name>skip_build</name>
+          <description>skip the build</description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@3961.ve48ee2c44a_b_3">
+    <script>pipeline {
+    agent any
+    parameters {
+        booleanParam(name: &apos;skip_build&apos;, defaultValue: false, description: &apos;skip the build&apos;)
+    }
+    stages {
+        stage(&apos;Build&apos;) {
+            when { expression { params.skip_build != true } }
+            steps {
+                sh &apos;&apos;&apos;
+                echo &quot;Building application&quot;
+                &apos;&apos;&apos;
+            }
+        }
+        stage(&apos;Test&apos;) {
+            steps {
+                echo &quot;Testing application&quot;
+                sh &apos;sleep 10&apos;
+            }
+        }
+        stage(&apos;Deploy&apos;) {
+            steps {
+                echo &quot;Deploying application&quot;
+                sh &apos;sleep 10&apos;
+            }
+        }
+    }
+}</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>

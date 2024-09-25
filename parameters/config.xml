@@ -1,0 +1,75 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@1436.vfa_244484591f">
+  <actions>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@2.2214.vb_b_34b_2ea_9b_83"/>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@2.2214.vb_b_34b_2ea_9b_83">
+      <jobProperties/>
+      <triggers/>
+      <parameters>
+        <string>ENVIRONMENT</string>
+        <string>RUN_TEST</string>
+        <string>CREDTENTILAS</string>
+      </parameters>
+      <options/>
+    </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
+  </actions>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.BooleanParameterDefinition>
+          <name>RUN_TEST</name>
+          <description>Run unit tests?</description>
+          <defaultValue>true</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>ENVIRONMENT</name>
+          <description>Select the environment</description>
+          <choices>
+            <string>development</string>
+            <string>test</string>
+            <string>production</string>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <com.cloudbees.plugins.credentials.CredentialsParameterDefinition plugin="credentials@1378.v81ef4269d764">
+          <name>CREDTENTILAS</name>
+          <description>Credentials for deployment</description>
+          <defaultValue>fa113780-2fa3-47ce-8330-0fd8606a6f72</defaultValue>
+          <credentialType>com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl</credentialType>
+          <required>true</required>
+        </com.cloudbees.plugins.credentials.CredentialsParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@3961.ve48ee2c44a_b_3">
+    <script>pipeline {
+agent { label &apos;slave&apos; }
+
+parameters {
+  booleanParam defaultValue: true, description: &apos;Run unit tests?&apos;, name: &apos;RUN_TEST&apos;
+  choice choices: [&apos;development&apos;, &apos;test&apos;, &apos;production&apos;], description: &apos;Select the environment&apos;, name: &apos;ENVIRONMENT&apos;
+  credentials credentialType: &apos;com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl&apos;, defaultValue: &apos;fa113780-2fa3-47ce-8330-0fd8606a6f72&apos;, description: &apos;Credentials for deployment&apos;, name: &apos;CREDTENTILAS&apos;, required: true
+}
+
+
+stages{
+   stage( &quot;Build&quot;){
+     when {
+        expression { params.RUN_TEST == true }
+      }
+      steps {
+          echo &quot;running on enivronment : ${params.ENVIRONMENT} &quot;
+          echo &quot;credentials used is : ${params.CREDTENTILA}&quot;
+     }
+   }
+   
+
+
+}
+}</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>
